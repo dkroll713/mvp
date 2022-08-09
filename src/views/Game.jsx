@@ -25,6 +25,10 @@ class Game extends React.Component {
     return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${cf.api_key}&language=en-US`)
   }
 
+  getActor = id => {
+    return axios.get(`https://api.themoviedb.org/3/person/${id}?api_key=${cf.api_key}&language=en-US`)
+  }
+
   getActorsMovies = (id) => {
     return axios.get(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${cf.api_key}&language=en-US`)
   }
@@ -37,8 +41,41 @@ class Game extends React.Component {
     return names
   }
 
-  populateChoices = () => {
+  sortArray = array => {
+    // console.log(array);
+    const greaterThan = function(num1, num2) {
+      if (num1 > num2) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    let n, nPlusOne;
+    let passes = true;
+    for (var x = 0; x < array.length; x++) {
+      n = array[x].popularity;
+      if (array[x+1]) {
+        nPlusOne = array[x+1].popularity
+      } else {
+        nPlusOne = 9000
+      }
 
+      if (greaterThan(n, nPlusOne)) {
+        let tmp = array[x];
+        array[x] = array[x+1]
+        array[x+1] = tmp
+        passes = false;
+      }
+    }
+
+    if (!passes) {
+      this.sortArray(array);
+    }
+    return array;
+  }
+
+  populateChoices = () => {
+    // debugger;
     if (this.props.type === 'actor') {
       let choices = JSON.parse(JSON.stringify(this.state.choices))
       let id = null;
@@ -132,9 +169,60 @@ class Game extends React.Component {
         loaded: true,
       })
     } else if (this.props.type === 'movie') {
+      // first actor
       let rng = Math.floor(Math.random() * 5)
-      console.log(this.props.validChoices[rng]);
-
+      console.log('new actor:', this.props.validChoices[rng].name);
+      let actor = this.props.validChoices[rng];
+      let choices = [];
+      choices.push(actor);
+      this.setState({
+        choices: choices,
+      })
+      console.log(choices);
+      this.getActorsMovies(actor.id)
+      .then(res => {
+        let movies = this.sortArray(res.data.cast);
+        movies = movies.slice(movies.length-10);
+        console.log(movies)
+      })
+      // second actor
+      .then(() => {
+        let rng = Math.floor(Math.random() * 1000)
+        this.getActor(rng)
+        .then(res => {
+          let choices = JSON.parse(JSON.stringify(this.state.choices))
+          choices.push(res.data);
+          this.setState({
+            choices: choices
+          })
+        })
+        .then(() => {
+          let rng = Math.floor(Math.random() * 1000)
+          this.getActor(rng)
+          .then(res => {
+            let choices = JSON.parse(JSON.stringify(this.state.choices))
+            choices.push(res.data);
+            this.setState({
+              choices: choices
+            })
+          })
+        })
+        .then(() => {
+          let rng = Math.floor(Math.random() * 1000)
+          this.getActor(rng)
+          .then(res => {
+            let choices = JSON.parse(JSON.stringify(this.state.choices))
+            choices.push(res.data);
+            this.setState({
+              choices: choices
+            })
+            console.log(choices);
+          })
+        })
+      })
+      this.setState({
+        loaded: true,
+      })
     }
   }
 
@@ -172,6 +260,21 @@ class Game extends React.Component {
                   match={this.props.choice}
                   check = {this.props.check}
                   end={this.props.end}
+                  type={this.props.type}
+                />
+              })}
+            </div>
+          )
+        } else if (this.props.type === 'movie') {
+          return (
+            <div>
+              <p>Game</p>
+              {this.state.choices.map(choice => {
+                return <Card
+                  key={'x'+choice.name}
+                  name={choice.name}
+                  match={this.props.choice}
+                  type={this.props.type}
                 />
               })}
             </div>

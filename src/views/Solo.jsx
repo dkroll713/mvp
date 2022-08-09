@@ -114,8 +114,8 @@ class Solo extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('this:', this.state, 'previous:',  prevState);
     if (this.state.choiceName !== prevState.choiceName) {
+      console.log('this:', this.state, 'previous:',  prevState);
       console.log('refreshing game')
       this.getCast(this.state.id)
       .then(res => {
