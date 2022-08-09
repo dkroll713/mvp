@@ -3,6 +3,21 @@ import React from 'react';
 class Card extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cast: []
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // if (nextProps.cast && prevState.cast === []) {
+    //   console.log(nextProps, prevState)
+    //   let cast = [];
+    //   for (var x = 0; x < nextProps.cast.length; x++) {
+    //     cast.push(nextProps.cast[x].name)
+    //     console.log(nextProps.cast[x].name)
+    //   }
+    //   return {cast: cast}
+    // }
   }
 
 
