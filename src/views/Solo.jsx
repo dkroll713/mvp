@@ -20,8 +20,8 @@ class Solo extends React.Component {
   }
 
   startGame = e => {
-    console.log(e.target.innerHTML);
-    console.log(e.target.id);
+    // console.log(e.target.innerHTML);
+    // console.log(e.target.id);
     this.setState({
       pregame: false,
       choice: e.target.className,
@@ -34,7 +34,7 @@ class Solo extends React.Component {
         this.removeDuplicates(res.data.cast)
         let sorted = this.sortArray(res.data.cast);
         sorted = sorted.slice(sorted.length-10);
-        console.log(sorted);
+        // console.log(sorted);
         this.setState({
           options: sorted,
         })
@@ -53,7 +53,7 @@ class Solo extends React.Component {
         console.log(splice);
       }
     }
-    console.log(array)
+    // console.log(array)
   }
 
   sortArray = array => {

@@ -88,8 +88,23 @@ class Game extends React.Component {
 
     choices.push(nextProps.validChoices[rng])
     return {choices: choices}
+  } else {
+    return null;
   }
  }
+
+  // componentDidMount() {
+  //   if(this.state.validChoices) {
+  //     console.log('selecting actor movie')
+  //     if (this.state.choices.length < 4) {
+  //       let rng = Math.floor(Math.random() * this.props.validChoices.length - 1);
+  //       let choices = [];
+
+  //       choices.push(this.props.validChoices[rng])
+  //       console.log(choices);
+  //     }
+  //   }
+  // }
 
   render() {
     if (this.props.validChoices) {
@@ -114,9 +129,9 @@ class Game extends React.Component {
           </div>
         )
       }
-      // else if (this.state.choices.length < 4) {
-      //   this.populateChoices();
-      // }
+      else if (this.state.choices.length < 4) {
+        this.populateChoices();
+      }
     }
   }
 }
