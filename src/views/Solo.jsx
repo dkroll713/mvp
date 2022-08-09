@@ -16,6 +16,7 @@ class Solo extends React.Component {
       choiceName: null,
       id: null,
       options: null,
+      gameOver: false,
     }
   }
 
@@ -89,6 +90,44 @@ class Solo extends React.Component {
     return array;
   }
 
+  check = (newChoice, id) => {
+    this.setState({
+      score: this.state.score += 1,
+      choice: 'movie',
+      choiceName: newChoice,
+      id: id,
+      options: null,
+    }, () => {
+      // axios.get()
+    })
+  }
+
+  endGame = () => {
+    console.log('game over');
+    this.setState({
+      gameOver: true,
+    })
+  }
+
+  getCast = (id) => {
+    return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${cf.api_key}&language=en-US`)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('this:', this.state, 'previous:',  prevState);
+    if (this.state.choiceName !== prevState.choiceName) {
+      console.log('refreshing game')
+      this.getCast(this.state.id)
+      .then(res => {
+        let names = this.sortArray(res.data.cast).slice(res.data.cast.length - 5);
+        console.log(names);
+        this.setState({
+          options: names
+        })
+      })
+    }
+  }
+
   render() {
     if (this.state.pregame) {
       return (
@@ -116,6 +155,13 @@ class Solo extends React.Component {
           </div>
         </div>
       )
+    } else if (this.state.gameOver) {
+      return (
+        <div>
+          <h2>Thanks for playing</h2>
+          <h4>You scored {this.state.score} points.</h4>
+        </div>
+      )
     } else if (this.state.choice === 'actor') {
       return (
         <div>
@@ -124,7 +170,13 @@ class Solo extends React.Component {
           <div className='game'>
             <h4>Pick the movie starring {this.state.choiceName}</h4>
           </div>
-          <Game validChoices = {this.state.options} choice = {this.state.choiceName}/>
+          <Game
+            validChoices={this.state.options}
+            choice={this.state.choiceName}
+            check={this.check}
+            end={this.endGame}
+            type={this.state.choice}
+          />
         </div>
       )
     } else if (this.state.choice === 'movie') {
@@ -134,6 +186,13 @@ class Solo extends React.Component {
           <h4>Score: {this.state.score}</h4>
           <div className='game'>
             <h4>Pick the actor who starred in {this.state.choiceName}</h4>
+            <Game
+              validChoices={this.state.options}
+              choice={this.state.choiceName}
+              check={this.check}
+              end={this.endGame}
+              type={this.state.choice}
+            />
           </div>
         </div>
       )

@@ -3,28 +3,25 @@ import React from 'react';
 class Card extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cast: []
+  }
+
+  success = e => {
+    if (this.props.cast) {
+      if (this.props.cast.includes(this.props.match)) {
+        console.log('success');
+        this.props.check(this.props.film, this.props.movie.id);
+      } else {
+        this.props.end();
+      }
+    } else {
+      this.props.end();
     }
   }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    // if (nextProps.cast && prevState.cast === []) {
-    //   console.log(nextProps, prevState)
-    //   let cast = [];
-    //   for (var x = 0; x < nextProps.cast.length; x++) {
-    //     cast.push(nextProps.cast[x].name)
-    //     console.log(nextProps.cast[x].name)
-    //   }
-    //   return {cast: cast}
-    // }
-  }
-
 
 
   render() {
     return (
-      <div onClick={this.props.check}>
+      <div onClick={this.success} id={this.props.match}>
         <h4>{this.props.movie.original_title}</h4>
         <img
           src={`http://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`}
