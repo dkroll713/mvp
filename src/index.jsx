@@ -34,13 +34,6 @@ class App extends React.Component {
           <Solo />
         </div>
       )
-    } else if (this.state.option === '2') {
-      return (
-        <div>
-          <Main selectOption={this.selectOption}/>
-          <h3>Multiplayer</h3>
-        </div>
-      )
     } else if (this.state.option === '3') {
       return (
         <div>

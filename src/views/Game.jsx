@@ -21,8 +21,8 @@ class Game extends React.Component {
     return axios.get(`http://${cf.server}/randomMovie`)
     .then(res => {
       rng = res.data.id
-      console.log(res.data)
-      console.log(rng);
+      // console.log(res.data)
+      // console.log(rng);
     return axios.get(`https://api.themoviedb.org/3/movie/${rng}?api_key=${cf.api_key}&language=en-US`)
     })
 
@@ -33,7 +33,13 @@ class Game extends React.Component {
   }
 
   getActor = id => {
-    return axios.get(`https://api.themoviedb.org/3/person/${id}?api_key=${cf.api_key}&language=en-US`)
+    let rng = null;
+    return axios.get(`http://${cf.server}/randomActor`)
+    .then(res => {
+      rng = res.data.id;
+      // console.log('actor data:', res.data)
+      return axios.get(`https://api.themoviedb.org/3/person/${rng}?api_key=${cf.api_key}&language=en-US`)
+    })
   }
 
   getActorsMovies = (id) => {
@@ -81,6 +87,15 @@ class Game extends React.Component {
     return array;
   }
 
+  shuffle = (array) => {
+    let tmp = [];
+    while (array.length > 0) {
+      let rng = Math.floor(Math.random() * array.length-1);
+      tmp.push(array.splice(rng, 1)[0])
+    }
+    return tmp
+  }
+
   populateChoices = () => {
     // debugger;
 
@@ -123,6 +138,9 @@ class Game extends React.Component {
             movieObj.cast = res.data.cast
           })
           choices.push(movieObj)
+          console.log('final choices:', choices)
+          choices = this.shuffle(choices)
+          console.log('final choices:', choices)
           this.setState({
             choices: choices
           })
@@ -150,6 +168,9 @@ class Game extends React.Component {
               movieObj.cast = res.data.cast;
             })
             choices.push(movieObj)
+            console.log('final choices:', choices)
+            choices = this.shuffle(choices)
+            console.log('final choices:', choices)
             this.setState({
               choices: choices
             })
@@ -178,8 +199,11 @@ class Game extends React.Component {
                 movieObj.cast = names
               })
               choices.push(movieObj)
+              console.log('final choices:', choices)
+              choices = this.shuffle(choices)
+              console.log('final choices:', choices)
               this.setState({
-                choices: choices
+                choices: choices,
               })
             }
          })
@@ -216,6 +240,9 @@ class Game extends React.Component {
         .then(res => {
           let choices = JSON.parse(JSON.stringify(this.state.choices))
           choices.push(res.data)
+          console.log('final choices:', choices)
+          choices = this.shuffle(choices)
+          console.log('final choices:', choices)
           console.log(res.data.name);
           this.setState({
             choices: choices
@@ -227,6 +254,9 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
+            console.log('final choices:', choices)
+            choices = this.shuffle(choices)
+            console.log('final choices:', choices)
             console.log(res.data.name);
             this.setState({
               choices: choices
@@ -239,6 +269,9 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
+            console.log('final choices:', choices)
+            choices = this.shuffle(choices)
+            console.log('final choices:', choices)
             console.log(res.data.name)
             this.setState({
               choices: choices
@@ -255,6 +288,7 @@ class Game extends React.Component {
 
  static getDerivedStateFromProps(nextProps, prevState) {
   if (nextProps.validChoices && prevState.choices.length < 1 && nextProps.type === 'actor') {
+    console.log(nextProps.validChoices.length - 1);
     let rng = Math.floor(Math.random() * nextProps.validChoices.length - 1);
     let choices = [];
     let choice = nextProps.validChoices[rng];

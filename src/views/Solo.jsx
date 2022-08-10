@@ -124,27 +124,36 @@ class Solo extends React.Component {
     }
   }
 
-  endGame = () => {
-    console.log('game over');
+  endGame = (movie, answer) => {
+    console.log('game over; final score:', this.state.score);
+    console.log(movie, answer)
     this.setState({
       gameOver: true,
+      finalAnswer: answer,
+      finalChoice: movie
     })
+  }
+
+  handleChange = e => {
+    this.setState({
+      entry: e.target.value,
+    })
+  }
+
+  submit = e => {
+    let obj = {
+      "name": this.state.entry,
+      "score": this.state.score
+    }
+    axios.post(`http://${cf.server}/score`, obj)
   }
 
   getCast = (id) => {
     return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${cf.api_key}&language=en-US`)
   }
 
-  // componentDidMount() {
-  //   console.log('test');
-  //   axios.get(`http://${cf.server}/random`)
-  //   .then(res => {
-  //     // rng = res.data;
-  //     console.log('testing:', res.data)
-  //   })
-  // }
-
   componentDidUpdate(prevProps, prevState) {
+    // debugger;
     if (this.state.choiceName !== prevState.choiceName) {
       console.log('this:', this.state, 'previous:',  prevState);
       console.log('refreshing game')
@@ -189,8 +198,10 @@ class Solo extends React.Component {
     } else if (this.state.gameOver) {
       return (
         <div>
-          <h2>Thanks for playing</h2>
+          <h2>You chose <em>{this.state.finalChoice}</em> but the correct answer was <em>{this.state.finalAnswer}</em></h2>
           <h4>You scored {this.state.score} points.</h4>
+          <input onChange={this.handleChange} placeholder="Enter your name" />
+          <button onClick={this.submit}>Submit your score to the high scores</button>
         </div>
       )
     } else if (this.state.choice === 'actor') {

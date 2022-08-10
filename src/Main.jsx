@@ -14,9 +14,6 @@ class Main extends React.Component {
           <button id={'1'} onClick={this.props.selectOption}>
             Solo
           </button>
-          <button id={'2'} onClick={this.props.selectOption}>
-            With Friends
-          </button>
           <button id={'3'} onClick={this.props.selectOption}>
             Hi Scores
           </button>

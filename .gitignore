@@ -1,6 +1,8 @@
 # custom
 config.js
 *.deb
+actors
+movies
 
 # Logs
 logs

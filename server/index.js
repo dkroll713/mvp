@@ -45,24 +45,54 @@ app.get('/randomMovie', (req, res) => {
   //   })
   // })
 
-  Movie.find().where('popularity').gt(50).select('id').exec((err, doc) => {
-    // console.log(doc);
-      let random = doc[Math.floor(Math.random() * doc.length)].id;
-      console.log(random);
-      Movie.find().where('id').equals(random).exec((err, doc) => {
-        console.log(doc[0]);
-        res.send(doc[0]);
-      })
-  })
+  // Movie.find().where('popularity').gt(50).select('id').exec((err, doc) => {
+  //   // console.log(doc);
+  //     let random = doc[Math.floor(Math.random() * doc.length)].id;
+  //     console.log(random);
+  //     Movie.find().where('id').equals(random).exec((err, doc) => {
+  //       console.log(doc[0]);
+  //       res.send(doc[0]);
+  //     })
+  // })
 
-  // Movie.count().exec((err, count) => {
-  //   let random = Math.floor(Math.random() * count);
-  //   Movie.find().where('id').equals(random)
-  //   .where('popularity').gt(5).exec((err, doc) => {
+  Movie.find().select('id').exec((err, doc) => {
+    let random = doc[Math.floor(Math.random() * doc.length)].id;
+    Movie.find().where('id').equals(random).exec((err, doc) => {
+      console.log(doc[0]);
+      res.send(doc[0])
+    })
+  })
+})
+
+const actorSchema = new Schema ({
+  adult: Boolean,
+  id: Number,
+  name: String,
+  popularity: Number
+})
+
+const Actor = mongoose.model('actors', actorSchema)
+
+app.get('/randomActor', (req, res) => {
+
+  // Actor.find().where('popularity').gt(25).select('id').exec((err, doc) => {
+  //   let random = doc[Math.floor(Math.random() * doc.length)].id
+  //   console.log(random)
+  //   Actor.find().where('id').equals(random).exec((err, doc) => {
   //     console.log(doc[0]);
-  //     res.send(doc[0])
+  //     res.send(doc[0]);
   //   })
   // })
+
+  Actor.find().select('id').exec((err, doc) => {
+    let random = doc[Math.floor(Math.random() * doc.length)].id
+    console.log(random);
+    Actor.find().where('id').equals(random).exec((err, doc) => {
+      console.log(doc[0]);
+      res.send(doc[0]);
+    })
+  })
+
 })
 
 app.get('/scores', (req, res) => {
