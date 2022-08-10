@@ -20,6 +20,8 @@ class Card extends React.Component {
     } else if (this.props.type === 'movie') {
       if (this.props.answer === this.props.name) {
         this.props.check(this.props.name, this.props.actor.id)
+      } else {
+        this.props.end();
       }
     }
   }

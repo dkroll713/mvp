@@ -18,7 +18,7 @@ class Game extends React.Component {
   getMovie = () => {
     // let rng = Math.floor(Math.random() * 5000)
     let rng = null;
-    return axios.get(`http://${cf.server}/random`)
+    return axios.get(`http://${cf.server}/randomMovie`)
     .then(res => {
       rng = res.data.id
       console.log(res.data)
