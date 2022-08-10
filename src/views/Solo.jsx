@@ -91,15 +91,37 @@ class Solo extends React.Component {
   }
 
   check = (newChoice, id) => {
-    this.setState({
-      score: this.state.score += 1,
-      choice: 'movie',
-      choiceName: newChoice,
-      id: id,
-      options: null,
-    }, () => {
-      // axios.get()
-    })
+    if (this.state.choice === 'actor') {
+      this.setState({
+        score: this.state.score += 1,
+        choice: 'movie',
+        choiceName: newChoice,
+        id: id,
+        options: null,
+      }, () => {
+        // axios.get()
+      })
+    } else if (this.state.choice === 'movie') {
+      this.setState({
+        score: this.state.score += 1,
+        choice: 'actor',
+        choiceName: newChoice,
+        id: id,
+        options: null,
+      },() => {
+        axios.get(`https://api.themoviedb.org/3/person/${this.state.id}/movie_credits?api_key=${cf.api_key}&language=en-US`)
+        .then((res) => {
+          // console.log(res.data.cast);
+          this.removeDuplicates(res.data.cast)
+          let sorted = this.sortArray(res.data.cast);
+          sorted = sorted.slice(sorted.length-10);
+          // console.log(sorted);
+          this.setState({
+            options: sorted,
+          })
+        })
+      })
+    }
   }
 
   endGame = () => {

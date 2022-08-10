@@ -11,7 +11,7 @@ class Game extends React.Component {
     this.state = {
       choices: [],
       loaded: false,
-      film: null,
+      answer: null,
     }
   }
 
@@ -84,10 +84,12 @@ class Game extends React.Component {
       .then(res => {
         // console.log('original cast:', res.data)
         let answerObj = this.state.choices[0]
-        answerObj.cast = this.getCastNames(res.data.cast);
+        let names = this.getCastNames(res.data.cast);
+        answerObj.cast = names;
         choices[0] = answerObj;
         this.setState({
-          choices: choices
+          choices: choices,
+          cast: names
         })
       })
 
@@ -177,6 +179,7 @@ class Game extends React.Component {
       choices.push(actor);
       this.setState({
         choices: choices,
+        answer: actor
       })
       console.log(choices);
       this.getActorsMovies(actor.id)
@@ -236,7 +239,7 @@ class Game extends React.Component {
 
     choices.push(movieObj)
     console.log('choices', choices)
-    return {choices: choices, film: choice.title}
+    return {choices: choices, answer: choice.title}
   } else {
     return null
   }
@@ -256,7 +259,7 @@ class Game extends React.Component {
                   key={'x'+choice.movie.title}
                   movie={choice.movie}
                   cast={choice.cast}
-                  film={this.state.film}
+                  answer={this.state.answer}
                   match={this.props.choice}
                   check = {this.props.check}
                   end={this.props.end}
@@ -273,7 +276,11 @@ class Game extends React.Component {
                 return <Card
                   key={'x'+choice.name}
                   name={choice.name}
+                  answer={this.state.answer.name}
+                  actor={choice}
                   match={this.props.choice}
+                  check = {this.props.check}
+                  end={this.props.end}
                   type={this.props.type}
                 />
               })}
