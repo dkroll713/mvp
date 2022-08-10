@@ -28,7 +28,16 @@ class Card extends React.Component {
   render() {
     if (this.props.type === 'actor') {
       return (
-        <div onClick={this.success} id={this.props.match}>
+        <div
+          onClick={this.success}
+          id={this.props.match}
+          style={{
+            display: 'grid',
+            backgroundColor: 'antiquewhite',
+            border: '1px solid black',
+            padding: '25px'
+          }}
+        >
           <h4>{this.props.movie.original_title}</h4>
           <img
             src={`http://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`}
@@ -38,7 +47,16 @@ class Card extends React.Component {
       )
     } else if (this.props.type === 'movie') {
       return (
-        <div onClick={this.success} id={this.props.actor.id}>
+        <div
+          onClick={this.success}
+          id={this.props.actor.id}
+          style={{
+            display: 'grid',
+            backgroundColor: 'antiquewhite',
+            border: '1px solid black',
+            padding: '25px'
+          }}
+        >
           <h4>{this.props.name}</h4>
           <img
             src={`http://image.tmdb.org/t/p/w500${this.props.actor.profile_path}`}

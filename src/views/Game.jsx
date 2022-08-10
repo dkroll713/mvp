@@ -118,53 +118,63 @@ class Game extends React.Component {
         const sleep = ms => new Promise(r => setTimeout(r, ms));
         Promise.resolve(sleep(500))
       })
-      // second
-      this.getMovie()
-      .then((res, err) => {
-        if (res) {
-          // console.log(res.data);
-          let movieObj = {};
-          movieObj.movie = res.data;
-          // choices.push(res.data);
-          id = res.data.id
-          this.getCast(id)
-          .then(res => {
-            const sleep = ms => new Promise(r => setTimeout(r, ms));
-            Promise.resolve(sleep(500))
-            // console.log(res.data.cast)
-            movieObj.cast = res.data.cast;
-          })
-          choices.push(movieObj)
-          this.setState({
-            choices: choices
-          })
-        }
-        const sleep = ms => new Promise(r => setTimeout(r, ms));
-        Promise.resolve(sleep(500))
+      .catch(err => {
+        console.log('error with first movie:', err)
       })
+      .then(() => {
+        this.getMovie()
+        .then((res, err) => {
+          if (res) {
+            // console.log(res.data);
+            let movieObj = {};
+            movieObj.movie = res.data;
+            // choices.push(res.data);
+            id = res.data.id
+            this.getCast(id)
+            .then(res => {
+              const sleep = ms => new Promise(r => setTimeout(r, ms));
+              Promise.resolve(sleep(500))
+              // console.log(res.data.cast)
+              movieObj.cast = res.data.cast;
+            })
+            choices.push(movieObj)
+            this.setState({
+              choices: choices
+            })
+          }
+          const sleep = ms => new Promise(r => setTimeout(r, ms));
+          Promise.resolve(sleep(500))
+        })
+        .catch(err => {
+          console.log('error with second movie:', err)
+        })
+        .then(() => {
+          this.getMovie()
+          .then((res, err) => {
+            if (res) {
+              // console.log(res.data);
+              let movieObj = {};
+              movieObj.movie = res.data;
+              // choices.push(res.data);
+              id = res.data.id
+              this.getCast(id)
+              .then(res => {
+                const sleep = ms => new Promise(r => setTimeout(r, ms));
+                Promise.resolve(sleep(500))
+                let names = res.data.cast;
+                // console.log(names);
+                movieObj.cast = names
+              })
+              choices.push(movieObj)
+              this.setState({
+                choices: choices
+              })
+            }
+         })
+       })
       // third
-      this.getMovie()
-      .then((res, err) => {
-        if (res) {
-          // console.log(res.data);
-          let movieObj = {};
-          movieObj.movie = res.data;
-          // choices.push(res.data);
-          id = res.data.id
-          this.getCast(id)
-          .then(res => {
-            const sleep = ms => new Promise(r => setTimeout(r, ms));
-            Promise.resolve(sleep(500))
-            let names = res.data.cast;
-            // console.log(names);
-            movieObj.cast = names
-          })
-          choices.push(movieObj)
-          this.setState({
-            choices: choices
-          })
-        }
       })
+      // second
       const sleep = ms => new Promise(r => setTimeout(r, ms));
       Promise.resolve(sleep(500))
       this.setState({
@@ -238,7 +248,7 @@ class Game extends React.Component {
     movieObj.movie = choice;
 
     choices.push(movieObj)
-    console.log('choices', choices)
+    // console.log('choices', choices)
     return {choices: choices, answer: choice.title}
   } else {
     return null
@@ -251,8 +261,11 @@ class Game extends React.Component {
       if (this.state.loaded) {
         if (this.props.type === 'actor') {
           return (
-            <div>
-              <p>Game</p>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap'
+            }}>
               {this.state.choices.map(choice => {
                 return <Card
                 // choice.movie and choice.cast
@@ -270,8 +283,11 @@ class Game extends React.Component {
           )
         } else if (this.props.type === 'movie') {
           return (
-            <div>
-              <p>Game</p>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexWrap: 'wrap'
+            }}>
               {this.state.choices.map(choice => {
                 return <Card
                   key={'x'+choice.name}
