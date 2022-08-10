@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Main from './Main.jsx';
-import Solo from './views/Solo.jsx'
+import Solo from './views/Solo.jsx';
+import HiScores from './views/HiScores.jsx';
 
 import { createRoot } from "react-dom/client";
 const root = createRoot(document.getElementById("root"));
@@ -44,7 +45,7 @@ class App extends React.Component {
       return (
         <div>
           <Main selectOption={this.selectOption}/>
-          <h3>Hi Scores</h3>
+          <HiScores />
         </div>
       )
     } else if (this.state.option === '4') {

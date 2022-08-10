@@ -1,5 +1,6 @@
 # custom
 config.js
+*.deb
 
 # Logs
 logs

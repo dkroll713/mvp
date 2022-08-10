@@ -135,6 +135,15 @@ class Solo extends React.Component {
     return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${cf.api_key}&language=en-US`)
   }
 
+  // componentDidMount() {
+  //   console.log('test');
+  //   axios.get(`http://${cf.server}/random`)
+  //   .then(res => {
+  //     // rng = res.data;
+  //     console.log('testing:', res.data)
+  //   })
+  // }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.choiceName !== prevState.choiceName) {
       console.log('this:', this.state, 'previous:',  prevState);

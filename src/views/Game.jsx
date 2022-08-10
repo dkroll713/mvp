@@ -16,9 +16,16 @@ class Game extends React.Component {
   }
 
   getMovie = () => {
-    let rng = Math.floor(Math.random() * 5000)
-    console.log(rng);
+    // let rng = Math.floor(Math.random() * 5000)
+    let rng = null;
+    return axios.get(`http://${cf.server}/random`)
+    .then(res => {
+      rng = res.data.id
+      console.log(res.data)
+      console.log(rng);
     return axios.get(`https://api.themoviedb.org/3/movie/${rng}?api_key=${cf.api_key}&language=en-US`)
+    })
+
   }
 
   getCast = (id) => {
