@@ -103,10 +103,43 @@ class Game extends React.Component {
     if (this.props.type === 'actor') {
       let choices = JSON.parse(JSON.stringify(this.state.choices))
       let id = null;
-      // answer
+      // answer - first try
       axios.get(`https://api.themoviedb.org/3/movie/${this.state.choices[0].movie.id}/credits?api_key=${cf.api_key}&language=en-US`)
       .catch(err => {
         console.log('failed getting next movie')
+        // answer - second try
+        axios.get(`https://api.themoviedb.org/3/movie/${this.state.choices[1].movie.id}/credits?api_key=${cf.api_key}&language=en-US`)
+          .catch(
+            console.log('failed again - three more tries')
+            // answer - third try
+            // axios.get(`https://api.themoviedb.org/3/movie/${this.state.choices[2].movie.id}/credits?api_key=${cf.api_key}&language=en-US`)
+              .catch(
+                console.log('failed again - two more tries')
+              )
+              .then(res => {
+              // console.log('original cast:', res.data)
+              let answerObj = this.state.choices[0]
+              let names = this.getCastNames(res.data.cast);
+              answerObj.cast = names;
+              choices[0] = answerObj;
+              this.setState({
+                choices: choices,
+                cast: names
+              })
+            })
+          )
+          .then(res => {
+            console.log('trying again')
+            // console.log('original cast:', res.data)
+            let answerObj = this.state.choices[0]
+            let names = this.getCastNames(res.data.cast);
+            answerObj.cast = names;
+            choices[0] = answerObj;
+            this.setState({
+              choices: choices,
+              cast: names
+            })
+          })
       })
       .then(res => {
         // console.log('original cast:', res.data)
@@ -138,9 +171,9 @@ class Game extends React.Component {
             movieObj.cast = res.data.cast
           })
           choices.push(movieObj)
-          console.log('final choices:', choices)
+          // console.log('final choices:', choices)
           choices = this.shuffle(choices)
-          console.log('final choices:', choices)
+          // console.log('final choices:', choices)
           this.setState({
             choices: choices
           })
@@ -168,9 +201,9 @@ class Game extends React.Component {
               movieObj.cast = res.data.cast;
             })
             choices.push(movieObj)
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             choices = this.shuffle(choices)
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             this.setState({
               choices: choices
             })
@@ -199,9 +232,9 @@ class Game extends React.Component {
                 movieObj.cast = names
               })
               choices.push(movieObj)
-              console.log('final choices:', choices)
+              // console.log('final choices:', choices)
               choices = this.shuffle(choices)
-              console.log('final choices:', choices)
+              // console.log('final choices:', choices)
               this.setState({
                 choices: choices,
               })
@@ -240,9 +273,9 @@ class Game extends React.Component {
         .then(res => {
           let choices = JSON.parse(JSON.stringify(this.state.choices))
           choices.push(res.data)
-          console.log('final choices:', choices)
+          // console.log('final choices:', choices)
           choices = this.shuffle(choices)
-          console.log('final choices:', choices)
+          // console.log('final choices:', choices)
           console.log(res.data.name);
           this.setState({
             choices: choices
@@ -254,9 +287,9 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             choices = this.shuffle(choices)
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             console.log(res.data.name);
             this.setState({
               choices: choices
@@ -269,9 +302,9 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             choices = this.shuffle(choices)
-            console.log('final choices:', choices)
+            // console.log('final choices:', choices)
             console.log(res.data.name)
             this.setState({
               choices: choices
