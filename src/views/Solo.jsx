@@ -142,7 +142,7 @@ class Solo extends React.Component {
       this.getCast(this.state.id)
       .then(res => {
         let names = this.sortArray(res.data.cast).slice(res.data.cast.length - 5);
-        console.log(names);
+        console.log('potential answers:', names);
         this.setState({
           options: names
         })

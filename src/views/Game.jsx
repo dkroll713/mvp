@@ -16,7 +16,7 @@ class Game extends React.Component {
   }
 
   getMovie = () => {
-    let rng = Math.floor(Math.random() * 1000)
+    let rng = Math.floor(Math.random() * 5000)
     console.log(rng);
     return axios.get(`https://api.themoviedb.org/3/movie/${rng}?api_key=${cf.api_key}&language=en-US`)
   }
@@ -76,11 +76,16 @@ class Game extends React.Component {
 
   populateChoices = () => {
     // debugger;
+
+    // populate movie choices
     if (this.props.type === 'actor') {
       let choices = JSON.parse(JSON.stringify(this.state.choices))
       let id = null;
       // answer
       axios.get(`https://api.themoviedb.org/3/movie/${this.state.choices[0].movie.id}/credits?api_key=${cf.api_key}&language=en-US`)
+      .catch(err => {
+        console.log('failed getting next movie')
+      })
       .then(res => {
         // console.log('original cast:', res.data)
         let answerObj = this.state.choices[0]
@@ -191,12 +196,11 @@ class Game extends React.Component {
         choices: choices,
         answer: actor
       })
-      console.log(choices);
       this.getActorsMovies(actor.id)
       .then(res => {
         let movies = this.sortArray(res.data.cast);
         movies = movies.slice(movies.length-10);
-        console.log(movies)
+        console.log('possible movies for new actor:', movies)
       })
       // second actor
       .then(() => {
@@ -204,7 +208,8 @@ class Game extends React.Component {
         this.getActor(rng)
         .then(res => {
           let choices = JSON.parse(JSON.stringify(this.state.choices))
-          choices.push(res.data);
+          choices.push(res.data)
+          console.log(res.data.name);
           this.setState({
             choices: choices
           })
@@ -215,6 +220,7 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
+            console.log(res.data.name);
             this.setState({
               choices: choices
             })
@@ -226,10 +232,11 @@ class Game extends React.Component {
           .then(res => {
             let choices = JSON.parse(JSON.stringify(this.state.choices))
             choices.push(res.data);
+            console.log(res.data.name)
             this.setState({
               choices: choices
             })
-            console.log(choices);
+            console.log('filled choices array:', choices);
           })
         })
       })
