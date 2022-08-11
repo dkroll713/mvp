@@ -321,13 +321,14 @@ class Game extends React.Component {
   }
 
  static getDerivedStateFromProps(nextProps, prevState) {
-  if (nextProps.validChoices && prevState.choices.length < 1 && nextProps.type === 'actor') {
+  if (Array.isArray(nextProps.validChoices) && prevState.choices.length < 1 && nextProps.type === 'actor') {
     console.log('getting derived state:', nextProps.validChoices.length - 1);
     let rng = Math.floor(Math.random() * nextProps.validChoices.length - 1);
     let choices = [];
     let choice = nextProps.validChoices[rng];
     let movieObj = {};
     movieObj.movie = choice;
+    console.log('choice:', choice);
 
     choices.push(movieObj)
     // console.log('choices', choices)
@@ -349,6 +350,7 @@ class Game extends React.Component {
               flexWrap: 'wrap'
             }}>
               {this.state.choices.map(choice => {
+                // debugger;
                 return <Card
                 // choice.movie and choice.cast
                   key={'x'+choice.movie.title}
@@ -371,6 +373,7 @@ class Game extends React.Component {
               flexWrap: 'wrap'
             }}>
               {this.state.choices.map(choice => {
+                // debugger;
                 return <Card
                   key={'x'+choice.name}
                   name={choice.name}

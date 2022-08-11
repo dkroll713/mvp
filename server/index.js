@@ -5,13 +5,14 @@ const path = require('path');
 
 const app = express();
 
+const cf = require('../config.js')
 const db = require('./db.js')
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/movies')
+mongoose.connect(`mongodb://${cf.mongo}/movies`)
 
 const port = 3005;
 
-
+app.use(express.static(path.join(__dirname, '../public')))
 app.use(bodyParser.json());
 app.use(cors());
 

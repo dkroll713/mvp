@@ -24,7 +24,7 @@ class HiScores extends React.Component {
   render() {
     if (this.state.scores) {
       return (
-        <div>
+        <div className="highScores">
           <h2 className="title">High Scores</h2>
           {this.state.scores.map((score, x) => {
             return <ScoreCard key={score.name+x+score.score} entry={score}/>

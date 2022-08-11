@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const cf = require('../config.js')
 
-mongoose.connect('mongodb://localhost/movies')
+mongoose.connect(`mongodb://${cf.mongo}/movies`)
 .then(() => {
   console.log('connected to mongo: movies')
 })

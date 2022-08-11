@@ -26,7 +26,7 @@ class Main extends React.Component {
             className="topButton"
             onClick={this.props.selectOption}
           >
-            Solo
+            Play
           </button>
           <button
             id={'3'}
@@ -35,13 +35,13 @@ class Main extends React.Component {
           >
             High Scores
           </button>
-          <button
+          {/* <button
             id={'4'}
             className="topButton"
             onClick={this.props.selectOption}
           >
             Show me a movie
-          </button>
+          </button> */}
         </div>
       </div>
 

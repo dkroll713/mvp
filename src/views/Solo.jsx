@@ -226,10 +226,9 @@ class Solo extends React.Component {
     } else if (this.state.choice === 'actor') {
       return (
         <div>
-          <h3>Your solo game</h3>
-          <h4>Score: {this.state.score}</h4>
+          <h4 className="score">Score: {this.state.score}</h4>
           <div className='game'>
-            <h4>Pick the movie starring {this.state.choiceName}</h4>
+            <h4 className="gameHeader">Pick the movie starring <em>{this.state.choiceName}</em></h4>
           </div>
           <Game
             validChoices={this.state.options}
@@ -242,11 +241,10 @@ class Solo extends React.Component {
       )
     } else if (this.state.choice === 'movie') {
       return (
-        <div>
-          <h3>Your solo game</h3>
-          <h4>Score: {this.state.score}</h4>
+        <div style={{display: 'grid'}}>
+          <h4 className="score">Score: {this.state.score}</h4>
           <div className='game'>
-            <h4>Pick the actor who starred in {this.state.choiceName}</h4>
+            <h4 className="gameHeader">Pick the actor who starred in <em>{this.state.choiceName}</em></h4>
             <Game
               validChoices={this.state.options}
               choice={this.state.choiceName}
