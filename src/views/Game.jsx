@@ -252,6 +252,7 @@ class Game extends React.Component {
     } else if (this.props.type === 'movie') {
       // first actor
       let rng = Math.floor(Math.random() * 5)
+      console.log(rng, this.props.validChoices)
       console.log('new actor:', this.props.validChoices[rng].name);
       let actor = this.props.validChoices[rng];
       let choices = [];
@@ -321,7 +322,7 @@ class Game extends React.Component {
 
  static getDerivedStateFromProps(nextProps, prevState) {
   if (nextProps.validChoices && prevState.choices.length < 1 && nextProps.type === 'actor') {
-    console.log(nextProps.validChoices.length - 1);
+    console.log('getting derived state:', nextProps.validChoices.length - 1);
     let rng = Math.floor(Math.random() * nextProps.validChoices.length - 1);
     let choices = [];
     let choice = nextProps.validChoices[rng];

@@ -172,10 +172,21 @@ class Solo extends React.Component {
     if (this.state.pregame) {
       return (
         <div>
-          <h2 style={{textAlign: 'center'}}>Choose an actor or a movie to get started</h2>
-          <div style={{display: 'flex', justifyContent: 'space-around'}}>
-            <div>
-              <h3>Actors</h3>
+          <h2
+            style={{textAlign: 'center'}}
+            className="subheader"
+          >
+            Choose an actor or a movie to get started
+          </h2>
+          <div
+            style={{display: 'flex', justifyContent: 'space-around'}}
+          >
+            <div
+              className="container actors"
+            >
+              <h3 className="subheader">
+                Actors
+              </h3>
               <ul>
                 <li onClick={this.startGame} id='19274' className='actor'>Seth Rogen</li>
                 <li onClick={this.startGame} id='6384' className='actor'>Keanu Reeves</li>
@@ -183,8 +194,14 @@ class Solo extends React.Component {
                 <li onClick={this.startGame} id='1229' className='actor'>Jeff Bridges</li>
               </ul>
             </div>
-            <div>
-              <h3>Movies</h3>
+            <div
+              className="container movies"
+            >
+              <h3
+                className="subheader"
+              >
+                Movies
+              </h3>
               <ul>
                 <li onClick={this.startGame} id='115' className='movie'>The Big Lebowski</li>
                 <li onClick={this.startGame} id='603' className='movie'>The Matrix</li>
@@ -197,11 +214,13 @@ class Solo extends React.Component {
       )
     } else if (this.state.gameOver) {
       return (
-        <div>
-          <h2>You chose <em>{this.state.finalChoice}</em> but the correct answer was <em>{this.state.finalAnswer}</em></h2>
-          <h4>You scored {this.state.score} points.</h4>
-          <input onChange={this.handleChange} placeholder="Enter your name" />
-          <button onClick={this.submit}>Submit your score to the high scores</button>
+        <div className="loserContainer">
+          <div className="loser">
+            <h2 className="loserItem">You chose <em>{this.state.finalChoice}</em> but the correct answer was <em>{this.state.finalAnswer}</em></h2>
+            <h4 className="loserItem">You scored {this.state.score} points.</h4>
+            <div style={{display: 'flex', justifyContent: 'center'}}><input className="loserItem" onChange={this.handleChange} placeholder="Enter your name" /></div>
+            <button className="loserItem" onClick={this.submit} className="topButton">Submit your score to the high scores</button>
+          </div>
         </div>
       )
     } else if (this.state.choice === 'actor') {

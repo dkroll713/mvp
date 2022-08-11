@@ -34,12 +34,13 @@ class Card extends React.Component {
         <div
           onClick={this.success}
           id={this.props.match}
-          style={{
-            display: 'grid',
-            backgroundColor: 'antiquewhite',
-            border: '1px solid black',
-            padding: '25px'
-          }}
+          className="card"
+          // style={{
+          //   display: 'grid',
+          //   backgroundColor: 'orange',
+          //   border: '1px solid black',
+          //   padding: '25px'
+          // }}
         >
           <h4>{this.props.movie.original_title}</h4>
           <img
@@ -56,12 +57,13 @@ class Card extends React.Component {
           <div
             onClick={this.success}
             id={this.props.actor.id}
-            style={{
-              display: 'grid',
-              backgroundColor: 'antiquewhite',
-              border: '1px solid black',
-              padding: '25px'
-            }}
+            className="card"
+            // style={{
+            //   display: 'grid',
+            //   backgroundColor: 'orange',
+            //   border: '1px solid black',
+            //   padding: '25px'
+            // }}
           >
             <h4>{this.props.name}</h4>
             <img

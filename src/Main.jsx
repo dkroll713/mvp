@@ -8,16 +8,38 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <h2 style={{textAlign: 'center'}} id={'0'} onClick={this.props.selectOption}>Welcome to the movie game</h2>
-        <p style={{textAlign: 'center'}}>Select an option:</p>
-        <div style={{display: 'flex', justifyContent: 'space-around'}}>
-          <button id={'1'} onClick={this.props.selectOption}>
+        <h1
+          style={{textAlign: 'center'}}
+          id={'0'}
+          className="header"
+          onClick={this.props.selectOption}
+        >Welcome to the movie game</h1>
+        {/* <p
+          style={{textAlign: 'center'}}
+        >Select an option:</p> */}
+        <div
+          // style={{display: 'flex', justifyContent: 'space-around'}}
+          className="buttonContainer"
+        >
+          <button
+            id={'1'}
+            className="topButton"
+            onClick={this.props.selectOption}
+          >
             Solo
           </button>
-          <button id={'3'} onClick={this.props.selectOption}>
-            Hi Scores
+          <button
+            id={'3'}
+            className="topButton"
+            onClick={this.props.selectOption}
+          >
+            High Scores
           </button>
-          <button id={'4'} onClick={this.props.selectOption}>
+          <button
+            id={'4'}
+            className="topButton"
+            onClick={this.props.selectOption}
+          >
             Show me a movie
           </button>
         </div>
