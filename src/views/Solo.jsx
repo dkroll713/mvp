@@ -17,6 +17,7 @@ class Solo extends React.Component {
       id: null,
       options: null,
       gameOver: false,
+      submitted: false,
     }
   }
 
@@ -145,7 +146,12 @@ class Solo extends React.Component {
       "name": this.state.entry,
       "score": this.state.score
     }
-    axios.post(`http://${cf.server}/score`, obj)
+    if (this.state.submitted === false) {
+      axios.post(`http://${cf.server}/score`, obj)
+      this.setState({
+        submitted: true,
+      })
+    }
   }
 
   getCast = (id) => {
